@@ -1,0 +1,4 @@
+[data-theme=dark]{--bg:#0b1220;--panel:#111a2e;--text:#e5e7eb;--muted:#94a3b8;--border:#223052;--bg-soft:#0f172a;--hover:#1a2540;--shadow:none;color-scheme:dark}
+[data-theme=dark] .col{color:#0f172a}[data-theme=dark] .deal,[data-theme=dark] .count{color:var(--text)}[data-theme=dark] .nav-link.active{background:#1e3a8a33;color:#93c5fd}
+[data-theme=dark] .alert.error{background:#450a0a;color:#fecaca;border-color:#7f1d1d}[data-theme=dark] .alert.okmsg{background:#052e16;color:#86efac;border-color:#166534}
+[data-theme=dark] .pill.green{background:#052e16}[data-theme=dark] .pill.orange{background:#431407}[data-theme=dark] .pill.red{background:#450a0a}[data-theme=dark] .pill.blue{background:#172554}[data-theme=dark] .pill.purple{background:#2e1065}

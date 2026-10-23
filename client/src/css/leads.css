@@ -1,0 +1,3 @@
+.toolbar{display:flex;gap:12px;margin-bottom:14px;padding:12px;flex-wrap:wrap}.toolbar select{width:180px}
+.search{flex:1;min-width:200px;display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:10px;padding:0 12px}.search input{border:0;padding:9px 0}.search input:focus{outline:none}
+.pager{display:flex;justify-content:space-between;align-items:center;margin-top:12px}

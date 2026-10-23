@@ -1,0 +1,7 @@
+*{box-sizing:border-box} body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px}
+h1{font-size:22px;margin:0} h3{margin:0 0 12px;font-size:15px} small{display:block;color:var(--muted);font-size:12px}
+a{color:var(--primary)} .muted{color:var(--muted)} .spacer{flex:1}
+input,select{font:inherit;color:inherit;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--panel);width:100%}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--primary);outline-offset:1px}
+.center-screen{min-height:50vh;display:grid;place-items:center;text-align:center}
+.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite} @keyframes spin{to{transform:rotate(360deg)}}

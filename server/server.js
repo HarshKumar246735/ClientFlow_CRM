@@ -1,0 +1,10 @@
+import http from 'http';
+import { env } from './src/config/env.js';
+import { connectDB } from './src/config/db.js';
+import app from './src/app.js';
+import { initSockets } from './src/sockets/index.js';
+import { startReminders } from './src/services/reminders.js';
+await connectDB();
+const server = http.createServer(app);
+initSockets(server);
+server.listen(env.port, () => { console.log(`API + Socket.IO listening on :${env.port}`); startReminders(); });
