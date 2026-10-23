@@ -14,7 +14,13 @@ const limiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 10, standardHeaders
 // Login counts only FAILED attempts, so a team sharing one office IP is not locked out by normal successful sign-ins.
 const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 10, skipSuccessfulRequests: true, standardHeaders: true, legacyHeaders: false, message: { success: false, message: 'Too many attempts, try later' } });
 const pub = (u) => ({ id: u._id, name: u.name, email: u.email, role: u.role, phone: u.phone, theme: u.theme });
-const cookieOpts = { httpOnly: true, secure: env.prod, sameSite: env.prod ? 'none' : 'lax', maxAge: 8 * 3600 * 1000, path: '/' };
+const cookieOpts = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',
+  maxAge: 8 * 60 * 60 * 1000,
+  path: '/'
+};
 function issue(res, user) {
   const csrfToken = crypto.randomBytes(24).toString('hex');
   res.cookie(env.cookie, jwt.sign({ sub: user._id, tv: user.tokenVersion }, env.secret, { expiresIn: '8h' }), cookieOpts);
