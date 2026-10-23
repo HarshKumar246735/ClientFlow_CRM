@@ -1,14 +1,29 @@
 # ClientFlow CRM
+<img width="1465" height="917" alt="image" src="https://github.com/user-attachments/assets/f213095f-2c07-4890-8457-902438f46e70" />
+
 
 ClientFlow CRM is a full-stack web application built using **React, Node.js, Express, and MongoDB**. It helps businesses manage customers, leads, deals, tasks, and team members.
 
 **Status:** Work in progress. Some features are implemented but have not been fully tested.
+To run This project :- Login as Admin
+ADMIN_EMAIL=harsh@gmail.com
+ADMIN_PASSWORD=Harsh@2026Secure!
+
 
 ## 1. Features
+<img width="1912" height="912" alt="image" src="https://github.com/user-attachments/assets/e338f484-e394-4581-b9bf-b23e66293a18" />
+
 
 * **Dashboard:** View CRM statistics and reports.
+
+<img width="1907" height="921" alt="image" src="https://github.com/user-attachments/assets/c824de0f-cd63-4676-b1c0-f456d92e2519" />
+
 * **Leads:** Add, edit, delete, search, filter, and assign leads.
+<img width="1908" height="917" alt="image" src="https://github.com/user-attachments/assets/9d73130e-3b1d-4337-8325-d55861f9f6ba" />
+
 * **Contacts and Companies:** Manage customer information.
+<img width="1911" height="901" alt="image" src="https://github.com/user-attachments/assets/8940d4e5-0267-4412-bfbd-5ae9236b1a3a" />
+
 * **Deals:** Track sales opportunities and their stages.
 * **Tasks:** Create and manage tasks and reminders.
 * **Team Management:** Admins can invite users, change roles, and manage accounts.
