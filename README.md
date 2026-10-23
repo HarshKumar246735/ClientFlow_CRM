@@ -1,42 +1,177 @@
-# ClientFlow CRM (work in progress)
-MERN-style CRM: `server/` (Express + MongoDB) and `client/` (React + Vite). **Not feature-complete** - see "Status".
+# ClientFlow CRM
 
-## Quick start (PowerShell)
-    npm run install:all
-    Copy-Item server\.env.example server\.env      # set MONGODB_URI and a 32+ char JWT_SECRET
-    Copy-Item client\.env.example client\.env
-    $env:ADMIN_NAME="Admin"; $env:ADMIN_EMAIL="you@example.com"; $env:ADMIN_PASSWORD="a-long-password-12+"; npm run seed:admin
-    npm run dev:server      # terminal 1 -> http://localhost:5000/api/health
-    npm run dev:client      # terminal 2 -> http://localhost:5173
-MongoDB: local instance or Atlas (create a free cluster, add a DB user, allow your IP, paste the connection string into MONGODB_URI). Transactions (lead conversion) need Atlas or a replica set.
+ClientFlow CRM is a full-stack web application built using **React, Node.js, Express, and MongoDB**. It helps businesses manage customers, leads, deals, tasks, and team members.
 
-## Status
-**Backend (server/):** auth (login/logout/me/profile/change + forgot/reset password), RBAC + CSRF, users, leads (CRUD, bulk assign, conversion, CSV import/export), contacts, companies (+CSV import/export via leads/contacts/companies import routes), deals + stage rules, tasks + reminder scheduler, activities (+manual notes/calls/emails/meetings), notifications + Socket.IO, dashboard, reports (+CSV), global search, audit log, org settings, optional SMTP email.
-**Frontend (client/):** Login, Forgot/Reset password, Dashboard, Pipeline (drag-and-drop), Leads / Contacts / Companies / Deals / Tasks (search, filters, pagination, create/edit/delete, CSV where supported), detail pages with activity timeline and lead conversion, Reports (+print/CSV), Team, Settings (profile, security, organization, light/dark mode), Notifications (+live dropdown), Audit log, global search.
-**Tests:** `npm test` (from the repo root or `server/`) runs the dependency-free unit tests (CSV utilities, lead scoring) plus `server/tests/team.integration.test.js` (login, CSRF, team management, role enforcement, last-admin protection). The integration suite is SKIPPED unless you point it at a throwaway database: `$env:TEST_MONGODB_URI="mongodb://127.0.0.1:27017/clientflow_test"; npm test` (the name must end in `_test`; it is wiped before and after, and your `server/.env` database is never used). There are NO frontend tests yet.
-**Verification done:** Node syntax check of all server files; TypeScript-based JSX syntax check of all client files; relative-import existence check. **Never run:** `npm install`, the server against MongoDB, `vite build`, or the UI in a browser.
+**Status:** Work in progress. Some features are implemented but have not been fully tested.
 
-## New in this version
-- **Public landing page** at `/` for signed-out visitors (signed-in users still go to the dashboard).
-- **Bulk actions on Leads:** tick rows, then assign to a user (admin/manager) or set status, priority or source. Converted leads are skipped. API: `PATCH /api/leads/bulk/assign` and `/bulk/update`.
-- **Rule-based lead scoring (not machine learning):** `GET /api/leads/:id/score` returns the score plus every contributing factor; scores and Hot/Warm/Cold bands show in the leads list and detail page. Weights are configurable by admins (Settings > Lead scoring rules, stored in the org settings).
-- **Invitations:** admins add users without a password; a 72-hour set-password link is emailed (SMTP configured) or shown once to the admin to share. `POST /api/users/:id/invite` resends. Admin-set temporary passwords are still possible.
-- **Touch drag-and-drop** on the pipeline via each card's grip handle (the "move to" dropdown remains as an accessible fallback).
+## 1. Features
 
-## Team management (admin)
-Team page > Add user (invitation link or temporary password), change role, activate/deactivate, **Edit** (name, email, phone, reports-to) and **Delete**. Deleting is refused for yourself, the last active administrator, and any user who still owns leads, deals, contacts, companies or tasks (deactivate them or reassign first). API: `POST /api/users`, `PATCH /api/users/:id`, `PATCH /api/users/:id/role`, `PATCH /api/users/:id/status`, `DELETE /api/users/:id`, `POST /api/users/:id/invite` (all admin-only).
+* **Dashboard:** View CRM statistics and reports.
+* **Leads:** Add, edit, delete, search, filter, and assign leads.
+* **Contacts and Companies:** Manage customer information.
+* **Deals:** Track sales opportunities and their stages.
+* **Tasks:** Create and manage tasks and reminders.
+* **Team Management:** Admins can invite users, change roles, and manage accounts.
+* **Authentication:** Login, logout, password reset, and profile management.
+* **Notifications:** Receive notifications, including live updates.
+* **Reports:** View reports and export data to CSV.
+* **Pipeline:** Track deals using drag-and-drop.
+* **Lead Scoring:** Automatically assign Hot, Warm, or Cold ratings using rules.
+* **Settings:** Manage account security, organization settings, and themes.
+* **Audit Logs:** Track important activities.
 
-## Known limitations
-- Self-registration is intentionally not offered; accounts are created by admins.
-- Email only works when SMTP_* variables are set; otherwise reset/invite links are printed to the server console (development) or shown to the admin (invites).
-- Task reminders use an in-process timer (every 5 min): needs an always-on server; they pause when a free host sleeps.
-- Lead conversion uses a transaction only on replica sets/Atlas; on standalone MongoDB it falls back to sequential writes.
-- Scoring weights are edited as JSON in Settings (no visual editor).
-- `dateFormat` offers short/medium/long only. CSV import is JSON-based (`{csv}`), max 1,000 rows / 2 MB; duplicates by email (leads, contacts) or exact company name.
-- Touch dragging was written but never tested on a real device.
-- No automated API/integration or frontend tests.
+## 2. Technologies Used
 
-## Deployment (manual)
-Render (API): New > Blueprint from this repo (uses render.yaml) or Web Service with Root Directory `server`, build `npm install`, start `npm start`; set MONGODB_URI, JWT_SECRET, CLIENT_URL=<your Vercel URL>, NODE_ENV=production.
-Vercel (client): Root Directory `client`, build `npm run build`, output `dist` (client/vercel.json adds SPA rewrites); set VITE_API_URL=<render URL>/api.
-Cross-site cookies in production use SameSite=None; Secure, so both sites must be HTTPS.
+**Frontend**
+
+* React
+* Vite
+* CSS
+
+**Backend**
+
+* Node.js
+* Express.js
+* MongoDB
+* Socket.IO
+* JWT authentication
+
+## 3. Requirements
+
+Install these before starting:
+
+* Node.js and npm
+* MongoDB locally or a MongoDB Atlas account
+
+## 4. Installation
+
+Open PowerShell in the project folder.
+
+### Step 1: Install dependencies
+
+```powershell
+npm run install:all
+```
+
+### Step 2: Configure environment variables
+
+Copy the example files:
+
+```powershell
+Copy-Item server\.env.example server\.env
+Copy-Item client\.env.example client\.env
+```
+
+Configure `server/.env` with your MongoDB connection string and a strong JWT secret.
+
+Configure `client/.env` according to the example file.
+
+**Do not overwrite existing `.env` files if they already contain your configuration.**
+
+### Step 3: Create the administrator account
+
+```powershell
+$env:ADMIN_NAME="Admin"
+$env:ADMIN_EMAIL="admin@example.com"
+$env:ADMIN_PASSWORD="YourStrongPassword123!"
+npm run seed:admin
+```
+
+Use your own email and a strong password.
+
+### Step 4: Start the backend
+
+Open a terminal and run:
+
+```powershell
+npm run dev:server
+```
+
+Backend health check:
+
+`http://localhost:5000/api/health`
+
+### Step 5: Start the frontend
+
+Open another terminal and run:
+
+```powershell
+npm run dev:client
+```
+
+Open:
+
+`http://localhost:5173`
+
+## 5. Team Management
+
+Only administrators can create team member accounts.
+
+To add a team member:
+
+1. Log in as an administrator.
+2. Open the Team page.
+3. Click **Add User**.
+4. Create an account using an invitation link or a temporary password.
+5. Assign the appropriate role.
+
+Administrators can also edit user details, change roles, deactivate accounts, and delete eligible users.
+
+Users who still own CRM records must have those records reassigned before their accounts can be deleted.
+
+## 6. Testing
+
+Run the existing tests from the project root:
+
+```powershell
+npm test
+```
+
+Some integration tests require a separate test database. To run them using a local MongoDB instance:
+
+```powershell
+$env:TEST_MONGODB_URI="mongodb://127.0.0.1:27017/clientflow_test"
+npm test
+```
+
+The test database must end in `_test`. Never use your production database for testing.
+
+Build the frontend:
+
+```powershell
+cd client
+npm install
+npm run build
+```
+
+**Testing status:** The source code has undergone basic syntax and import checks, but the application has not yet been fully run or tested. Frontend automated tests are not available.
+
+## 7. Deployment
+
+**Backend:** Deploy the `server` folder to Render and configure the required environment variables.
+
+**Frontend:** Deploy the `client` folder to Vercel and configure `VITE_API_URL` to point to your backend API.
+
+Both services should use HTTPS in production for secure cross-site cookies.
+
+## 8. Known Limitations
+
+* Self-registration is not available; administrators create accounts.
+* Email features require SMTP configuration.
+* Task reminders require the backend to remain running.
+* Lead scoring is rule-based, not machine learning.
+* Some advanced interactions, including touch-based pipeline dragging, need testing.
+* Automated frontend and comprehensive integration tests are not yet available.
+* Lead conversion transactions require MongoDB Atlas or a replica set for full transactional support.
+
+## 9. Future Improvements
+
+* Add automated frontend tests.
+* Improve mobile responsiveness and touch interactions.
+* Add a visual editor for lead-scoring rules.
+* Improve background task scheduling.
+* Expand automated API and integration testing.
+
+---
+
+**ClientFlow CRM** — A work-in-progress CRM platform for managing customers, sales, and teams.
